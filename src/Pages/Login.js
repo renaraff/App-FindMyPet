@@ -7,101 +7,90 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
 
-    const { Login, error } = useContext(AuthContext);
+    const { Login, setCadastro, setLogin } = useContext(AuthContext);
 
-    function RealizaLogin() {
-       Login( email, senha );
+    function RealizaLogin(){
+      Login(email, senha)
     }
 
+    const { error } = useContext(AuthContext);
 
     return (
-        <ScrollView contentContainerStyle={css.container}>
-            <Image source={require("../../assets/logo.png")} style={css.logo} />
+        <ScrollView contentContainerStyle={styles.container}>
+            <Image source={require("../../assets/logo.png")} style={styles.logo} />
+            <Text style={styles.title}>Entre na sua conta para acessar o painel de busca</Text>
             <TextInput
                 inputMode="email"
-                placeholder="Email"
-                style={css.input}
+                placeholder="Email do Usuário"
+                style={styles.input}
                 value={email}
                 onChangeText={(digitado) => setEmail(digitado)}
-                placeholderTextColor="white"
+                placeholderTextColor="black"
             />
             <TextInput
                 inputMode="text"
-                placeholder="Password"
+                placeholder="Senha"
                 secureTextEntry={true}
-                style={css.input}
+                style={styles.input}
                 value={senha}
                 onChangeText={(digitado) => setSenha(digitado)}
-                placeholderTextColor="white"
+                placeholderTextColor="black"
             />
-            <View style={css.forgot}>
-                <Text style={css.forgotText}>Esqueceu a senha?</Text>
-            </View>
-            <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
-                <Text style={css.btnLoginText}>Log In</Text>
+            <TouchableOpacity style={styles.button} onPress={() => RealizaLogin()}>
+                <Text style={styles.btnText}>ENTRAR</Text>
             </TouchableOpacity>
+            <Text style={styles.cadastroText} onPress={() => { setCadastro(true); setLogin(true); }}>Ainda não tem uma conta? Cadastre-se</Text>
             {error &&
-                <View style={css.error}>
-                    <Text style={css.errorText}>Revise os campos. Tente novamente!</Text>
+                <View style={styles.error}>
+                    <Text style={styles.errorText}>Email ou Senha incorretos.</Text>
                 </View>
             }
         </ScrollView>
     )
 }
-const css = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        alignContent: "center",
-        backgroundColor: "#191919"
-    },
-    logo: {
-        width: "60%",
-        resizeMode: "contain"
-    },
-    input: {
-        width: "90%",
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+      },
+      logo: {
+        width: 190,
+        height: 190,
+      },
+      title:{
+        fontSize: 13.5,
+        marginBottom: 10,
+        color: '#727272',
+      },
+      input: {
+        width: '90%',
         height: 50,
+        borderWidth: 2.5,
+        borderColor: 'rgba(203, 108, 230, 0.24)',
         borderRadius: 10,
-        marginBottom: 15,
-        padding: 15,
-        backgroundColor: "#262626",
-        color: "white"
-    },
-    forgot: {
-        width: "90%",
-        marginTop: 10,
-        justifyContent: "flex-end",
-        alignItems: "flex-end",
-    },
-    forgotText: {
-        color: "#0195fd",
-        fontWeight: "bold"
-    },
-    btnLogin: {
-        width: "90%",
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        fontWeight: '400',
+      },
+      button: {
+        width: '90%',
         height: 50,
-        borderWidth: 1,
+        backgroundColor: '#FFC516',
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 10,
-        marginTop: 30,
-        backgroundColor: "#0195fd"
+      },
+      btnText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+      },
+    cadastroText: {
+        color: "#727272",
+        marginTop: 11,
     },
-    btnLoginText: {
-        color: "white",
-        lineHeight: 45,
-        textAlign: "center",
-        fontSize: 15,
-        fontWeight: "bold"
-    },
-    error: {
-        width: "100%",
-        height: 50,
-        marginTop: 30
-    },
-    errorText: {
-        color: "white",
-        textAlign: "center"
-    }
-});
+
+    });
+    

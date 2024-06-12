@@ -3,36 +3,35 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {
-    const [logado, setLogado] = useState(false);
+    const [login, setLogin ] = useState( false );
+    const [cadastro, setCadastro ] = useState( false );
     const [error, setError] = useState(false);
 
-    async function Login(email, senha) {
-
+    async function Login(email, senha) {       
         if (email != "" && senha != "") {
-            await fetch('https://fakestoreapi.com/auth/login', {
+            await fetch('http://10.139.75.47:5251/api/Usuarios/Login?email='+email+'&senha='+senha, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: email,
-                    password: senha
+                    email: email,
+                    senha: senha
                 })
             })
-                .then(res => (res.ok == true) ? res.json() : false)
+                .then(res => (res.ok == true) ? res.json() : false)             
                 .then(json => {
-                    setLogado((json.token) ? true : false);
-                    setError((json.token) ? false : true);
-                }
-                )
-                .catch(err => setError(true))
+                    setLogin((json) ? true : false);
+                   setError((json) ? false : true);
+                })
+                .catch(err => setError(true))                
         } else {
             setError(true)
         }
     }
 
     return (
-        <AuthContext.Provider value={{ logado: logado, Login, error: error }}>
+        <AuthContext.Provider value={{  Login, login: login, setLogin, error: error, cadastro: cadastro, setCadastro }}>
             {children}
         </AuthContext.Provider>
     )

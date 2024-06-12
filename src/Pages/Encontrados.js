@@ -1,26 +1,25 @@
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Animais from '../Components/Animais'
+import AnimalEncontrado from '../Components/AnimalEncontrado';
 
 export default function Home() {
   const [animal, setAnimal] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   async function getAnimal() {
-    await fetch('http://10.139.75.47:5251/api/Animais/GetAllAnimais', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+      await fetch('http://10.139.75.47:5251/api/Animais/GetAllAnimais', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then( res => res.json() )
+        .then( json => setAnimal( json ))
+        .catch( err => console.log( err ) );
+          setLoading(false);
       }
-    })
-      .then(res => res.json())
-      .then(json => setAnimal(json))
-      .catch(err => console.log(err));
-    setLoading(false);
-  }
 
-
+  
   useEffect(() => {
     getAnimal();
   }, []);
@@ -35,7 +34,7 @@ export default function Home() {
             <FlatList
               data={animal}
               renderItem={({ item }) => (
-                <Animais
+                <AnimalEncontrado
                   nome={item.animalNome}
                   raca={item.animalRaca}
                   tipo={item.animalTipo}
@@ -53,7 +52,7 @@ export default function Home() {
             />
           </>
         ) : (
-          <Text style={css.text}>Nenhum animal encontrado.</Text>
+          <Text style={css.text}>Recarregue a página.</Text>
         )
       )}
     </View>

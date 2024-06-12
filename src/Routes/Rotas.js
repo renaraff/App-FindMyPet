@@ -6,21 +6,28 @@ import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 
 import Home from '../Pages/Home';
-import Busca from '../Pages/Busca';
-import Login from '../Pages/Login';
-import Videos from '../Pages/Videos';
-import Perfil from '../Pages/Perfil';
-import Inserir from '../Pages/Inserir';
 
+import Encontrados from '../Pages/Encontrados';
+
+import Login from '../Pages/Login';
+
+import Cadastro from '../Pages/Cadastro';
 
 const Tab = createBottomTabNavigator();
 
 export default function Rotas() {
 
-    const { logado } = useContext(AuthContext);
 
-    if (!logado) {
-        return (<Login />)
+    const { login, setLogin, cadastro, setCadastro } = useContext( AuthContext );
+
+    if( login == false ) {
+        return(
+            <Login />
+        )
+    }
+
+    if( cadastro ) {
+        return(<Cadastro />)
     }
 
     return (
@@ -30,54 +37,27 @@ export default function Rotas() {
                     headerShown: false,
                     tabBarShowLabel: false,
                     tabBarStyle: {
-                        backgroundColor: '#191919',
+                        backgroundColor: '#ffff',
+                        width: '100%',
                     },
-                    tabBarActiveTintColor: "white"
+                    tabBarActiveTintColor: "black"
                 }}
             >
                 <Tab.Screen
-                    name="Home"
+                    name="Perdidos"
                     component={Home}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="home" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Busca"
-                    component={Busca}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="magnify" color={color} size={size} />
                         ),
                     }}
-
                 />
                 <Tab.Screen
-                    name="Inserir"
-                    component={Inserir}
+                    name="Encontrados"
+                    component={Encontrados}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="plus-box" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Videos"
-                    component={Videos}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="youtube-tv" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Perfil"
-                    component={Perfil}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+                            <MaterialCommunityIcons name="heart" color={color} size={size} />
                         ),
                     }}
                 />
@@ -85,3 +65,6 @@ export default function Rotas() {
         </NavigationContainer>
     )
 }
+
+
+
