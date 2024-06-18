@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, Alert } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
 
@@ -39,12 +39,13 @@ export default function Login() {
             <TouchableOpacity style={styles.button} onPress={() => RealizaLogin()}>
                 <Text style={styles.btnText}>ENTRAR</Text>
             </TouchableOpacity>
-            <Text style={styles.cadastroText} onPress={() => { setCadastro(true); setLogin(true); }}>Ainda não tem uma conta? Cadastre-se</Text>
-            {error &&
+              {error &&
                 <View style={styles.error}>
                     <Text style={styles.errorText}>Email ou Senha incorretos.</Text>
                 </View>
             }
+            <Text style={styles.cadastroText} onPress={() => { setCadastro(true); setLogin(true); }}>Ainda não tem uma conta? Cadastre-se</Text>
+          
         </ScrollView>
     )
 }
@@ -86,6 +87,10 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
+      },
+      errorText: {
+        marginTop: 15,
+        fontSize: 16
       },
     cadastroText: {
         color: "#727272",

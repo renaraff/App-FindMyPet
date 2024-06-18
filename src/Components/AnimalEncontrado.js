@@ -1,57 +1,68 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import Observacao from './NovaObservacao'
-
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 
 export default function AnimalEncontrado({ nome, raca, tipo, cor, sexo, dtdesaparecimento, dtencontro, status, foto, observacao }) {
-
     const [detalhes, setDetalhes] = useState(false);
-    
+
+    const altura = detalhes ? 560 : 460;
+  
+    if (status !== 0) {
+        return null; 
+    }
+
     return (
-        <ScrollView contentContainerStyle={css.box}>
+        <ScrollView contentContainerStyle={[css.box, { height: altura }]}>
             <View style={css.header}>
                 <Text style={css.title}>ENCONTRADO</Text>
             </View>
             <View style={css.boxImage}>
-            <Image style={css.image} source={{ uri: foto }}></Image>
+                <Image style={css.image} source={{ uri: foto }}></Image>
             </View>
             <View style={css.descriptionBox}>
                 <Text style={css.descriptionText}>{nome} - {tipo}</Text>
             </View>
-            <TouchableOpacity style={css.detalhes} onPress={() => setDetalhes(!detalhes)}>
-                <Text style={css.detalhesTxt}>Detalhes</Text>
-            </TouchableOpacity>
+            <View style={css.caixa}>
+            <TouchableOpacity style={[css.infos, detalhes && css.infoAparecendo]} onPress={() => setDetalhes(!detalhes)}>
+                    <Text style={css.detalhesTxt}>Detalhes</Text>
+                </TouchableOpacity>
+            </View>
+          
             {detalhes && (
                 <View>
                     <View style={css.categoryBox}>
                         <Text style={css.categoryText}>{raca}</Text>
                         <Text style={css.categoryText}>{cor}</Text>
                         <Text style={css.categoryText}>{sexo}</Text>
+                        <Text style={css.categoryText}>{observacao}</Text>
                     </View>
                 </View>
             )}
+
         </ScrollView>
     )
 }
 
 const css = StyleSheet.create({
     box: {
-        height: 450,
+        height: 562,
         borderColor: 'rgba(203, 108, 230, 0.24)',
         borderRadius: 10,
         borderWidth: 3,
-        padding: 15,
         marginTop: 30,
         width: 370,
         margin: '0 auto',
     },
     header: {
-        paddingHorizontal: 15, // Adicionando preenchimento lateral ao contêiner do título
-        width: '100%',
+        padding: 13,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        backgroundColor: '#EBB000',
+        alignItems: 'left',
     },
     title: {
         fontWeight: 'bold',
         fontSize: 20,
+        color: 'white'
     },
     boxImage: {
         width: "100%",
@@ -62,36 +73,42 @@ const css = StyleSheet.create({
         width: "100%",
         height: "100%",
         resizeMode: "cover",
-        borderRadius: 10,
     },
     descriptionBox: {
         marginBottom: 10,
     },
     descriptionText: {
         fontWeight: '500',
-        textAlign: "justify",
-        fontSize: 17,
-    },
-    detalhes: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    detalhesTxt: {
-        color: "#EBB000",
-        fontSize: 16,
-        fontWeight: 'bold'
+        marginLeft: 20,
+        fontSize: 21,
     },
     categoryBox: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    obsText: {
-        marginTop: 4,
-        fontWeight: '500'
+        alignItems: 'center',
+        textAlign: 'center',
+        paddingVertical: 15,
     },
     categoryText: {
-        fontSize: 14,
+        fontSize: 16,
         color: '#424242',
         borderRadius: 10,
+    },
+    infos: {
+        width: '38%',
+        height: 30,
+        marginTop: 10,
+        marginLeft: '30%',
+        textAlign: 'center',
+        backgroundColor: '#CB6CE6',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+    detalhesTxt: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    infoAparecendo: {
+        backgroundColor: '#EBB000',
     },
 });

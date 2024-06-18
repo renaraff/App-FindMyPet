@@ -1,15 +1,33 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import Observacao from './NovaObservacao'
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import Observacao from './NovaObservacao';
 
-
-export default function Animais({ nome, raca, tipo, cor, sexo, dtdesaparecimento, dtencontro, status, foto, observacao }) {
-
+export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, observacao }) {
     const [detalhes, setDetalhes] = useState(false);
     const [observacoes, setObservacoes] = useState(false);
 
+    const altura = () => {
+        if (observacoes) return 890;
+        if (detalhes) return 580;
+        return 460;
+    };
+
+    const mostrarDetalhes = () => {
+        setDetalhes(!detalhes);
+        if (observacoes) setObservacoes(false);
+    };
+
+    const mostrarObservacao = () => {
+        setObservacoes(!observacoes);
+        if (detalhes) setDetalhes(false);
+    };
+
+    if (status !== 1) {
+        return null; 
+    }
+
     return (
-        <ScrollView contentContainerStyle={css.box}>
+        <ScrollView contentContainerStyle={[css.box, { height: altura() }]}>
             <View style={css.header}>
                 <Text style={css.title}>PERDIDO</Text>
             </View>
@@ -19,20 +37,20 @@ export default function Animais({ nome, raca, tipo, cor, sexo, dtdesaparecimento
             <View style={css.descriptionBox}>
                 <Text style={css.descriptionText}>{nome} - {tipo}</Text>
             </View>
-            <TouchableOpacity style={css.detalhes} onPress={() => setDetalhes(!detalhes)}>
-                <Text style={css.detalhesTxt}>Detalhes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={css.detalhes} onPress={() => setObservacoes(!observacoes)}>
-                <Text style={css.obsText}>Nova observação</Text>
-            </TouchableOpacity>
+            <View style={css.caixa}>
+                <TouchableOpacity style={[css.infos, detalhes && css.infoAparecendo]} onPress={mostrarDetalhes}>
+                    <Text style={css.infosTxt}>Detalhes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[css.infos, observacoes && css.infoAparecendo]} onPress={mostrarObservacao}>
+                    <Text style={css.infosTxt}>Nova Observação</Text>
+                </TouchableOpacity>
+            </View>
             {detalhes && (
-                <View>
-                    <View style={css.categoryBox}>
-                        <Text style={css.categoryText}>{raca}</Text>
-                        <Text style={css.categoryText}>{cor}</Text>
-                        <Text style={css.categoryText}>{sexo}</Text>
-                        <Text style={css.categoryText}>{observacao}</Text>
-                    </View>
+                <View style={css.categoryBox}>
+                    <Text style={css.categoryText}>{raca}</Text>
+                    <Text style={css.categoryText}>{cor}</Text>
+                    <Text style={css.categoryText}>{sexo}</Text>
+                    <Text style={css.categoryText}>{observacao}</Text>
                 </View>
             )}
 
@@ -45,7 +63,6 @@ export default function Animais({ nome, raca, tipo, cor, sexo, dtdesaparecimento
 
 const css = StyleSheet.create({
     box: {
-        height: 562,
         borderColor: 'rgba(203, 108, 230, 0.24)',
         borderRadius: 10,
         borderWidth: 3,
@@ -74,34 +91,41 @@ const css = StyleSheet.create({
         width: "100%",
         height: "100%",
         resizeMode: "cover",
-        borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10,
     },
     descriptionBox: {
         marginBottom: 10,
     },
     descriptionText: {
         fontWeight: '500',
-        textAlign: "justify",
-        fontSize: 17,
+        marginLeft: 20,
+        fontSize: 21,
     },
-    detalhes: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+    caixa: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 10,
     },
-    detalhesTxt: {
-        color: "#EBB000",
+    infos: {
+        width: '38%',
+        height: 30,
+        marginTop: 10,
+        backgroundColor: '#EBB000',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+    infosTxt: {
+        color: '#fff',
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+    },
+    infoAparecendo: {
+        backgroundColor: '#CB6CE6',
     },
     categoryBox: {
-     textAlign: 'center',
-     alignItems: 'center'
-    },
-    obsText: {
-        color: "#EBB000",
-        fontSize: 16,
-        fontWeight: 'bold'
+        alignItems: 'center',
+        textAlign: 'center',
+        paddingVertical: 20,
     },
     categoryText: {
         fontSize: 16,

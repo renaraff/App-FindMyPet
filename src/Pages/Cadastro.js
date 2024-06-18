@@ -10,9 +10,13 @@ export default function Cadastro() {
     const [email, setEmail] = useState();
     const [senha, setSenha] = useState();
   
-    
 
-    async function postUser() {        
+    async function postUser() {     
+        
+        if (!nome || !telefone || !email || !senha ) {
+            Alert.alert('Erro', 'Confira todos os campos e tente novamente.');
+            return;
+        }
         setCadastro(false);
         setLogin(false);
         fetch('http://10.139.75.47:5251/api/Usuarios/CreateUser', {
