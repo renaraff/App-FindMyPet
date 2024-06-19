@@ -36,6 +36,7 @@ export default function Home() {
               data={animal}
               renderItem={({ item }) => (
                 <Animais
+                  animalId = {item.animalId}
                   nome={item.animalNome}
                   raca={item.animalRaca}
                   tipo={item.animalTipo}

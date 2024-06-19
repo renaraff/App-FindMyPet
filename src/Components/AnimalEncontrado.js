@@ -20,7 +20,7 @@ export default function AnimalEncontrado({ nome, raca, tipo, cor, sexo, dtencont
             </View>
             <View style={css.descriptionBox}>
                 <Text style={css.descriptionText}>{nome} - {tipo}</Text>
-                <Text style={css.dataencontro}>Data que foi encontrado: {dtencontro}</Text>
+                <Text style={css.dataencontro}>Encontrado no dia {dtencontro}</Text>
             </View>
             <View style={css.caixa}>
             <TouchableOpacity style={[css.infos, detalhes && css.infoAparecendo]} onPress={() => setDetalhes(!detalhes)}>
@@ -68,6 +68,7 @@ const css = StyleSheet.create({
     dataencontro:{
         fontSize: 15,
         marginTop: 5,
+        marginLeft: 5,
         color: 'black'
     },
     boxImage: {
@@ -86,6 +87,7 @@ const css = StyleSheet.create({
     descriptionText: {
         fontWeight: '500',
         fontSize: 21,
+        marginLeft: 5,
     },
     categoryBox: {
         alignItems: 'center',

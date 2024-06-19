@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { AuthContext } from '../Context/AuthContext';
 
-export default function NovaObservacao() {
+export default function NovaObservacao({ animalId }) {
     const [observacaoDescricao, setDescricao] = useState("");
     const [observacaoLocal, setLocal] = useState("");
     const [observacaoData, setData] = useState(new Date());
-    const [animalId, setAnimalId] = useState("");
-    const [usuarioId, setUsuarioId] = useState("");
     const [sucesso, setSucesso] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
 
-    async function SalvarObservacao() {
+    const { usuarioId } = useContext(AuthContext);
 
+    async function SalvarObservacao() {
         if (!observacaoDescricao || !observacaoLocal || !observacaoData) {
             Alert.alert('Erro', 'Confira todos os campos e tente novamente.');
             return;
@@ -29,10 +29,8 @@ export default function NovaObservacao() {
                 observacaoData: observacaoData.toISOString(),
                 animalId: animalId,
                 usuarioId: usuarioId
-
             })
         })
-
             .then(res => res.json())
             .then(json => {
                 setSucesso(true);
@@ -72,7 +70,7 @@ export default function NovaObservacao() {
                 placeholderTextColor="black"
             />
             <TouchableOpacity onPress={showDateTimePicker} style={styles.input}>
-                <Text>{observacaoData.toLocaleString()}</Text>
+                <Text style={styles.data}>{observacaoData.toLocaleString()}</Text>
             </TouchableOpacity>
             {showDatePicker && (
                 <DateTimePicker
@@ -83,20 +81,6 @@ export default function NovaObservacao() {
                     onChange={onChangeDateTime}
                 />
             )}
-            <TextInput
-                placeholder="UsuarioId"
-                style={styles.input}
-                value={usuarioId}
-                onChangeText={(digitado) => setUsuarioId(digitado)}
-                placeholderTextColor="black"
-            />
-            <TextInput
-                placeholder="AnimalId"
-                style={styles.input}
-                value={animalId}
-                onChangeText={(digitado) => setAnimalId(digitado)}
-                placeholderTextColor="black"
-            />
             <TouchableOpacity onPress={SalvarObservacao} style={styles.button}>
                 <Text style={styles.btnText}>Salvar</Text>
             </TouchableOpacity>
@@ -146,4 +130,7 @@ const styles = StyleSheet.create({
         color: 'green',
         fontWeight: 'bold',
     },
+    data:{
+        marginTop: 11
+    }
 });

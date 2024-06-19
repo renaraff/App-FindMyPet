@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'rea
 import Observacao from './NovaObservacao';
 
 
-export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, observacao, dtdesaparecimento }) {
+export default function Animais({ animalId, nome, raca, tipo, cor, sexo, status, foto, observacao, dtdesaparecimento }) {
     const [detalhes, setDetalhes] = useState(false);
     const [observacoes, setObservacoes] = useState(false);
 
     const altura = () => {
-        if (observacoes) return 890;
+        if (observacoes) return 790;
         if (detalhes) return 600;
         return 480;
     };
@@ -37,7 +37,7 @@ export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, obs
             </View>
             <View style={css.descriptionBox}>
                 <Text style={css.descriptionText}>{nome} - {tipo}</Text>
-                <Text style={css.datadesaparecimento}>Data que desapareceu: {dtdesaparecimento}</Text>
+                <Text style={css.datadesaparecimento}>Desaparecido desde {dtdesaparecimento}</Text>
             </View>
             <View style={css.caixa}>
                 <TouchableOpacity style={[css.infos, detalhes && css.infoAparecendo]} onPress={mostrarDetalhes}>
@@ -57,7 +57,7 @@ export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, obs
             )}
 
             {observacoes && (
-                <Observacao />
+                <Observacao animalId={animalId} />
             )}
         </ScrollView>
     )
@@ -86,6 +86,7 @@ const css = StyleSheet.create({
     },
     datadesaparecimento:{
         fontSize: 15,
+        marginLeft: 5,
         marginTop: 5,
         color: 'black'
     },
@@ -104,7 +105,7 @@ const css = StyleSheet.create({
     },
     descriptionText: {
         fontWeight: '500',
-        marginLeft: 20,
+        marginLeft: 5,
         fontSize: 21,
     },
     caixa: {
