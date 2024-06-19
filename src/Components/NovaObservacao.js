@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function NovaObservacao() {
     const [observacaoDescricao, setDescricao] = useState("");
     const [observacaoLocal, setLocal] = useState("");
-    const [observacaoData, setData] = useState("");
+    const [observacaoData, setData] = useState(new Date());
     const [animalId, setAnimalId] = useState("");
     const [usuarioId, setUsuarioId] = useState("");
     const [sucesso, setSucesso] = useState(false);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     async function SalvarObservacao() {
 
@@ -24,7 +26,7 @@ export default function NovaObservacao() {
             body: JSON.stringify({
                 observacaoDescricao: observacaoDescricao,
                 observacaoLocal: observacaoLocal,
-                observacaoData: observacaoData,
+                observacaoData: observacaoData.toISOString(),
                 animalId: animalId,
                 usuarioId: usuarioId
 
@@ -36,10 +38,21 @@ export default function NovaObservacao() {
                 setSucesso(true);
                 setDescricao("");
                 setLocal("");
-                setData("");
+                setData(new Date());
             })
             .catch(err => console.log(err));
     }
+
+    const showDateTimePicker = () => {
+        setShowDatePicker(true);
+    };
+
+    const onChangeDateTime = (event, selectedDate) => {
+        const currentDate = selectedDate || observacaoData;
+        setShowDatePicker(Platform.OS === 'ios');
+        setData(currentDate);
+    };
+
 
     return (
         <View style={styles.container}>
@@ -58,13 +71,18 @@ export default function NovaObservacao() {
                 onChangeText={(digitado) => setLocal(digitado)}
                 placeholderTextColor="black"
             />
-            <TextInput
-                placeholder="Data da observação"
-                style={styles.input}
-                value={observacaoData}
-                onChangeText={(digitado) => setData(digitado)}
-                placeholderTextColor="black"
-            />
+            <TouchableOpacity onPress={showDateTimePicker} style={styles.input}>
+                <Text>{observacaoData.toLocaleString()}</Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+                <DateTimePicker
+                    value={observacaoData}
+                    mode="datetime"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeDateTime}
+                />
+            )}
             <TextInput
                 placeholder="UsuarioId"
                 style={styles.input}

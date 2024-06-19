@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import Observacao from './NovaObservacao';
 
-export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, observacao }) {
+
+export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, observacao, dtdesaparecimento }) {
     const [detalhes, setDetalhes] = useState(false);
     const [observacoes, setObservacoes] = useState(false);
 
     const altura = () => {
         if (observacoes) return 890;
-        if (detalhes) return 580;
-        return 460;
+        if (detalhes) return 600;
+        return 480;
     };
 
     const mostrarDetalhes = () => {
@@ -36,6 +37,7 @@ export default function Animais({ nome, raca, tipo, cor, sexo, status, foto, obs
             </View>
             <View style={css.descriptionBox}>
                 <Text style={css.descriptionText}>{nome} - {tipo}</Text>
+                <Text style={css.datadesaparecimento}>Data que desapareceu: {dtdesaparecimento}</Text>
             </View>
             <View style={css.caixa}>
                 <TouchableOpacity style={[css.infos, detalhes && css.infoAparecendo]} onPress={mostrarDetalhes}>
@@ -82,6 +84,11 @@ const css = StyleSheet.create({
         fontSize: 20,
         color: 'white'
     },
+    datadesaparecimento:{
+        fontSize: 15,
+        marginTop: 5,
+        color: 'black'
+    },
     boxImage: {
         width: "100%",
         height: 300,
@@ -108,7 +115,7 @@ const css = StyleSheet.create({
     infos: {
         width: '38%',
         height: 30,
-        marginTop: 10,
+        marginTop: 6,
         backgroundColor: '#EBB000',
         justifyContent: 'center',
         alignItems: 'center',

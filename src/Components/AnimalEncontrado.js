@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 
-export default function AnimalEncontrado({ nome, raca, tipo, cor, sexo, dtdesaparecimento, dtencontro, status, foto, observacao }) {
+export default function AnimalEncontrado({ nome, raca, tipo, cor, sexo, dtencontro, status, foto, observacao }) {
     const [detalhes, setDetalhes] = useState(false);
 
-    const altura = detalhes ? 560 : 460;
+    const altura = detalhes ? 590 : 480;
   
     if (status !== 0) {
         return null; 
@@ -20,6 +20,7 @@ export default function AnimalEncontrado({ nome, raca, tipo, cor, sexo, dtdesapa
             </View>
             <View style={css.descriptionBox}>
                 <Text style={css.descriptionText}>{nome} - {tipo}</Text>
+                <Text style={css.dataencontro}>Data que foi encontrado: {dtencontro}</Text>
             </View>
             <View style={css.caixa}>
             <TouchableOpacity style={[css.infos, detalhes && css.infoAparecendo]} onPress={() => setDetalhes(!detalhes)}>
@@ -64,6 +65,11 @@ const css = StyleSheet.create({
         fontSize: 20,
         color: 'white'
     },
+    dataencontro:{
+        fontSize: 15,
+        marginTop: 5,
+        color: 'black'
+    },
     boxImage: {
         width: "100%",
         height: 300,
@@ -79,7 +85,6 @@ const css = StyleSheet.create({
     },
     descriptionText: {
         fontWeight: '500',
-        marginLeft: 20,
         fontSize: 21,
     },
     categoryBox: {
@@ -95,7 +100,7 @@ const css = StyleSheet.create({
     infos: {
         width: '38%',
         height: 30,
-        marginTop: 10,
+        marginTop: 6,
         marginLeft: '30%',
         textAlign: 'center',
         backgroundColor: '#CB6CE6',

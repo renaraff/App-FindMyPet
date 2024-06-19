@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
+import { Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
 
@@ -35,7 +35,6 @@ export default function Cadastro() {
         .then((json) => console.log(json));    
     }
 
-    
 
     return (
         <ScrollView contentContainerStyle={css.container}>
